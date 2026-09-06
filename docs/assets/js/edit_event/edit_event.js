@@ -98,8 +98,8 @@ export async function editEvent() {
     var payload = new_event.payload;
     payload.event_date = form.querySelector("#event_date").value;
     payload.pending = user_profile.role == 0;
-    payload.created_by = user_profile?.id ?? null;
-    payload.creator_name = user_profile?.name ?? null;
+    // payload.created_by = user_profile?.id ?? null;
+    // payload.creator_name = user_profile?.name ?? null;
     payload.image_url = imageUrl;
     console.log("submit event payload (for edit):", payload);
 
