@@ -1,7 +1,7 @@
 console.log("executing:", "edit_event.js");
 
-import { openErrorModal, openSuccessModal } from "../global/modal.js?v=83e6cadd.d26455a";
-import { initEventForm, getEventFormPayload, uploadImageFile } from "../global/eventform.js?v=83e6cadd.d26455a";
+import { openErrorModal, openSuccessModal } from "../global/modal.js?v=c64017d5.f472bc1";
+import { initEventForm, getEventFormPayload, uploadImageFile } from "../global/eventform.js?v=c64017d5.f472bc1";
 
 /* === VARIABLES === */
 const hash = window.location.hash.substring(1);
@@ -98,8 +98,8 @@ export async function editEvent() {
     var payload = new_event.payload;
     payload.event_date = form.querySelector("#event_date").value;
     payload.pending = user_profile.role == 0;
-    payload.created_by = user_profile?.id ?? null;
-    payload.creator_name = user_profile?.name ?? null;
+    // payload.created_by = user_profile?.id ?? null;
+    // payload.creator_name = user_profile?.name ?? null;
     payload.image_url = imageUrl;
     console.log("submit event payload (for edit):", payload);
 
