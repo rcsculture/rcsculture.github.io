@@ -32,7 +32,7 @@ Backends (--backend, default: api)
     api  Supabase Management API via requests (needs SUPABASE_ACCESS_TOKEN)
     pg   direct Postgres connection via psycopg2
 
-supabase.env (next to this script) is loaded automatically; real environment
+planetraves.env (next to this script) is loaded automatically; real environment
 variables take precedence over it.
 
 Environment variables
@@ -1259,8 +1259,8 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def _load_env_file():
-    """Load KEY=VALUE lines from supabase.env next to this script (env wins if set)."""
-    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "supabase.env")
+    """Load KEY=VALUE lines from planetraves.env next to this script (env wins if set)."""
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "planetraves.env")
     try:
         with open(path, "r", encoding="utf-8") as f:
             lines = f.readlines()

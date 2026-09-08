@@ -33,7 +33,7 @@ REM ------------------------------------------------------------
 REM Set environment variables
 REM ------------------------------------------------------------
 echo setting environment variables...
-for /f "usebackq tokens=1,* delims==" %%A in ("%PROJECT_ROOT_FOLDER%\supabase.env") do (
+for /f "usebackq tokens=1,* delims==" %%A in ("%PROJECT_ROOT_FOLDER%\planetraves.env") do (
     set "%%A=%%B"
 )
 
