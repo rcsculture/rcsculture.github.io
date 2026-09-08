@@ -96,3 +96,46 @@
     color: var(--primary-gray, #777);
     text-align: center;
 }
+
+/* Dev tools grid */
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 0.7rem;
+    margin-top: 1rem;
+}
+
+.tool-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+
+    padding: 0.9rem 0.6rem;
+    border-radius: 10px;
+    background: var(--md-default-bg-color, #fff);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tool-tile:hover,
+.tool-tile:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.tool-icon {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+}
+
+.tool-name {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-align: center;
+}
+
