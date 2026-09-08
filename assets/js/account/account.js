@@ -1,6 +1,6 @@
 console.log("executing:", "account.js");
 
-import {openRoleRequestModal, openProfileModal, openEventModal, openErrorModal, openSuccessModal} from "../global/modal.js?v=922c735a.4eafc3e";
+import {openRoleRequestModal, openProfileModal, openEventModal, openErrorModal, openSuccessModal} from "../global/modal.js?v=d3d3279a.7b8008b";
 
 /* === VARIABLES === */
 const hash = window.location.hash.substring(1);
@@ -118,7 +118,7 @@ async function getProfiles() {
     if (error) {
         console.error(error)
         updateRoleForm.hidden = false;
-        updateRoleForm.innerText = "Erreur survenue durant le chargement des utilisateurs";
+        updateRoleForm.innerText = "Erreur survenue durant le chargement des utilisateur·rice·s";
         return;
     }
     if (!data || data.length === 0) {

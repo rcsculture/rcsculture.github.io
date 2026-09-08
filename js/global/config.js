@@ -13,17 +13,17 @@ APP_CONFIG = {
     ROLES: {
         0: "Non-Officiel",
         1: "Officiel",
-        2: "Modérateur",
+        2: "Modérateur·rice",
         3: "Admin"
     },
     USER_STATUS: {
         0: {
-            "label": "Particulier",
-            "example": ["habitant"]
+            "label": "Particulier·ère",
+            "example": ["habitant·e"]
         },
         1: {
-            "label": "Acteur individuel",
-            "example": ["artiste indépendant", "Auteur / Ecrivain", "Musicien", "Dj", "Performeur"]
+            "label": "Acteur·rice individuel·le",
+            "example": ["artiste indépendant·e", "Auteur·rice / Écrivain·e", "Musicien·ne", "Dj", "Performeur·euse"]
         },
         2: {
             "label": "Organisation artistique",
@@ -31,7 +31,7 @@ APP_CONFIG = {
         },
         3: {
             "label": "Structure évènementielle",
-            "example": ["société de production", "agence", "festival", "programmateur", "organisateur"]
+            "example": ["société de production", "agence", "festival", "programmateur·rice", "organisateur·rice"]
         },
         4: {
             "label": "Lieu culturel privé",
@@ -46,7 +46,7 @@ APP_CONFIG = {
             "example": ["collectif artistique", "groupe citoyen", "réseau militant"]
         },
         7: {
-            "label": "Acteur du patrimoine et du tourisme",
+            "label": "Acteur·rice du patrimoine et du tourisme",
             "example": ["office de tourisme", "site patrimonial", "parc historique"]
         },
         8: {
@@ -54,8 +54,8 @@ APP_CONFIG = {
             "example": ["radio", "TV", "platefrom numérique", "label", "maison d'édition", "studio"]
         },
         9: {
-            "label": "Acteur social",
-            "example": ["centre social", "maison de quartier", "structure", "animateur culturel", "réseau éducatif", "EHPAD", "MJC", "ONG"]
+            "label": "Acteur·rice social·e",
+            "example": ["centre social", "maison de quartier", "structure", "animateur·rice culturel·le", "réseau éducatif", "EHPAD", "MJC", "ONG"]
         },
         10: {
             "label": "Association",

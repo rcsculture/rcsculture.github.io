@@ -236,7 +236,7 @@ function renderAccountPermissionDetails() {
             </div>
             <div class="permission granted">
                 <span id="icon" class="material-symbols-outlined">check</span>
-                Modération: accepter/refuser une requête contributeur "Officiel"
+                Modération: accepter/refuser une requête contributeur·rice "Officiel"
             </div>
             <div class="permission granted">
                 <span id="icon" class="material-symbols-outlined">check</span>
@@ -246,7 +246,7 @@ function renderAccountPermissionDetails() {
         <div id="permission-super-admin" class="detail-section-list hidden">
             <div class="permission granted">
                 <span id="icon" class="material-symbols-outlined">check</span>
-                <span >Admin: Changer le role d'un contributeur</span>
+                <span >Admin: Changer le role d'un·e contributeur·rice</span>
             </div>
         </div>
     `
@@ -514,7 +514,7 @@ Date: ${formatDateForUI(event.event_date)}
 
 async function navigatorShareProfile(profile, profile_url) {
     const profile_title = profile.name;
-    const profile_desc = `Regarde cette requête contributeur officiel !
+    const profile_desc = `Regarde cette requête contributeur·rice officiel·le !
 
 Nom: ${profile.name}
 Email: ${profile.email}
