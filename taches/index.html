@@ -8,10 +8,8 @@
       
       
       
-        <link rel="canonical" href="https://planetraves.fr/contacts/">
+        <link rel="canonical" href="https://planetraves.fr/taches/">
       
-      
-        <link rel="prev" href="../account/">
       
       
       
@@ -23,7 +21,7 @@
     
     
       
-        <title>L'Équipe - Planet Raves</title>
+        <title>Taches - Planet Raves</title>
       
     
     
@@ -266,11 +264,9 @@
   
   
   
-    
   
-  
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="./" class="md-tabs__link">
+    <li class="md-tabs__item">
+      <a href="../contacts/" class="md-tabs__link">
         
   
   
@@ -300,9 +296,7 @@
           
             
               
-                
-              
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -408,17 +402,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../contacts/" class="md-nav__link">
         
   
   
@@ -434,7 +421,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -447,9 +433,7 @@
             
             
               
-                
-              
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" hidden>
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -471,230 +455,16 @@
               <article class="md-content__inner md-typeset">
                 
                   
-  
 
 
 
+  <h1>Taches</h1>
 
-  <h1>L'Équipe</h1>
-
-<div id="success-modal" class="modal-overlay success hidden" data-action="close-modal">
-    <div class="modal-card success" data-no-action role="dialog" aria-modal="true">
-        <button id="modal-close" class="modal-close" data-allow-action data-action="close-modal" aria-label="Fermer">
-            <span class="material-symbols-outlined">close</span>
-        </button>
-        <div id="modal-content" class="modal-content">
-            <span class="notice-icon">✔️</span>
-            <span id="text"></span>
-        </div>
-    </div>
-</div>
-
-<div id="error-modal" class="modal-overlay error hidden" data-action="close-modal">
-    <div class="modal-card error" role="dialog" aria-modal="true">
-        <button id="modal-close" class="modal-close" data-allow-action data-action="close-modal" aria-label="Fermer">
-            <span class="material-symbols-outlined">close</span>
-        </button>
-
-        <div id="modal-content" class="modal-content">
-            <span class="notice-icon">❌</span>
-            <span id="text"></span>
-        </div>
-        <div id="message" class="error-message"></div>
-    </div>
-</div>
-
-<div id="age-help-modal" class="modal-overlay info hidden" data-action="close-modal">
-    <div class="modal-card long info" data-no-action role="dialog" aria-modal="true">
-        <button class="modal-close" data-allow-action data-action="close-modal" aria-label="Fermer">
-            <span class="material-symbols-outlined">close</span>
-        </button>
-        <div class="modal-content help">
-            <h3 class="help-title"><span class="notice-icon">ℹ️</span> Âge du public</h3>
-            <p>Indiquez la tranche d'âge à laquelle s'adresse l'évènement (de 0 à 18 ans).</p>
-            <ul>
-                <li><strong>Âge minimum</strong> : âge à partir duquel l'évènement est adapté.</li>
-                <li><strong>Âge maximum</strong> : âge jusqu'auquel l'évènement reste adapté.</li>
-            </ul>
-            <p>Laissez les deux champs vides pour un évènement tout public.</p>
-        </div>
-    </div>
-</div>
-
-<div id="tag-help-modal" class="modal-overlay info hidden" data-action="close-modal">
-    <div class="modal-card long info" data-no-action role="dialog" aria-modal="true">
-        <button class="modal-close" data-allow-action data-action="close-modal" aria-label="Fermer">
-            <span class="material-symbols-outlined">close</span>
-        </button>
-        <div class="modal-content help">
-            <h3 class="help-title"><span class="notice-icon">ℹ️</span> Tags</h3>
-            <p>Les tags permettent de décrire l'évènement et d'en faciliter la recherche.</p>
-            <ul>
-                <li><strong>Exemple de tag</strong> : enfant, cirque, rock, etc.</li>
-                <li><strong>Conseil</strong> : utilisez des tags pertinents, précis et cours.</li>
-            </ul>
-            <p>Vous pouvez ajouter jusqu'à 4 tags.</p>
-        </div>
-    </div>
-</div>
-
-<div id="end-date-help-modal" class="modal-overlay info hidden" data-action="close-modal">
-    <div class="modal-card long info" data-no-action role="dialog" aria-modal="true">
-        <button class="modal-close" data-allow-action data-action="close-modal" aria-label="Fermer">
-            <span class="material-symbols-outlined">close</span>
-        </button>
-        <div class="modal-content help">
-            <h3 class="help-title"><span class="notice-icon">ℹ️</span> Date de fin</h3>
-            <p>Indiquez la date de fin de l'évènement si celui-ci s'étend sur plusieurs jours. Un évènement individuel sur chaque jour sera créé automatiquement.</p>
-            <p><strong>Note</strong> : lorsque vous voudrez supprimer ou éditer l'évènement, il faudra ensuite le faire pour chaque jour séparément.</p>
-        </div>
-    </div>
-</div>
-
-<div id="category-help-modal" class="modal-overlay info hidden" data-action="close-modal">
-    <div class="modal-card long info" data-no-action role="dialog" aria-modal="true">
-        <button class="modal-close" data-allow-action data-action="close-modal" aria-label="Fermer">
-            <span class="material-symbols-outlined">close</span>
-        </button>
-        <div class="modal-content help">
-            <h3 class="help-title"><span class="notice-icon">ℹ️</span> Catégories</h3>
-            <p>Chaque évènement est associé à une ou plusieurs catégories définies ici.</p>
-            <p>Veuillez en sélectionner au moins une.</p>
-            <p><strong>Note</strong> : chaque catégorie est associée à une couleur, qui servira de légende pour faciliter la recherche d'évènements.</p>
-        </div>
-    </div>
-</div>
-
-<div id="area-help-modal" class="modal-overlay info hidden" data-action="close-modal">
-    <div class="modal-card long info" data-no-action role="dialog" aria-modal="true">
-        <button class="modal-close" data-allow-action data-action="close-modal" aria-label="Fermer">
-            <span class="material-symbols-outlined">close</span>
-        </button>
-        <div class="modal-content help">
-            <h3 class="help-title"><span class="notice-icon">ℹ️</span> Où ?</h3>
-            <p>Filtrez les évènements par zone géographique, déterminée à partir du code postal du lieu.</p>
-            <ul>
-                <li><strong>Rabas/Couf</strong> : évènements situés dans le 81800.</li>
-                <li><strong>Salvagnac</strong> : évènements situés dans le 81630.</li>
-                <li><strong>Ailleurs</strong> : évènements situés dans les autres communes.</li>
-            </ul>
-        </div>
-    </div>
-</div>
-
-<div id="view-help-modal" class="modal-overlay info hidden" data-action="close-modal">
-    <div class="modal-card long info" data-no-action role="dialog" aria-modal="true">
-        <button class="modal-close" data-allow-action data-action="close-modal" aria-label="Fermer">
-            <span class="material-symbols-outlined">close</span>
-        </button>
-        <div class="modal-content help">
-            <h3 class="help-title"><span class="notice-icon">ℹ️</span> Aide</h3>
-            <p><strong>Navigation :</strong></p>
-            <p>Parcourez ici les différents évènements disponibles.</p>
-            <p>Chaque évènement peut être classé en plusieurs catégories (concert, 
-                spectacle, exposition, etc.) et un code couleur fait office de légende.</p>
-            <p>Utilisez les boutons pour choisir le mode d'affichage des évènements :</p>
-            <ul>
-                <li><span class="material-symbols-outlined">view_agenda</span><strong>Liste</strong> : les évènements à venir, regroupés par période.</li>
-                <li><span class="material-symbols-outlined">calendar_month</span><strong>Agenda</strong> : les évènements sur un calendrier mensuel.</li>
-            </ul>
-            <p><strong>Cliquez</strong> sur un évènement pour en voir les détails.</p>
-            <p>Lorsque la carte de l'évènement est ouverte, des boutons sont disponibles en bas pour partager ou éditer/supprimer vos évènements.</p>
-            <p><strong>Filtre :</strong></p>
-            <p>Utilisez les boutons de la barre d'outil pour filtrer par catégorie.</p>
-            <p>Ouvrez « Plus de filtres » pour affiner la recherche par zone, âge du public, prix ou mot-clé.</p>
-            <p>Lorsqu'au moins un filtre est activé, un bouton <strong>Reset</strong> apparaît pour permettre de réinitialiser les filtres.</p>
-        </div>
-    </div>
-</div>
-
-<div id="contributor-charter-modal" class="modal-overlay info hidden" data-action="close-modal">
-    <div class="modal-card long info" data-no-action role="dialog" aria-modal="true">
-        <button class="modal-close" data-allow-action data-action="close-modal" aria-label="Fermer">
-            <span class="material-symbols-outlined">close</span>
-        </button>
-        <div class="modal-content help">
-            <h3 class="help-title"><span class="notice-icon">ℹ️</span> Charte du contributeur</h3>
-            <p>En publiant un évènement, vous acceptez de respecter la charte du contributeur.</p>
-            <p>Veuillez lire attentivement la charte avant de publier un évènement.</p>
-        </div>
-    </div>
-</div>
-
-<div id="moderator-charter-modal" class="modal-overlay info hidden" data-action="close-modal">
-    <div class="modal-card long info" data-no-action role="dialog" aria-modal="true">
-        <button class="modal-close" data-allow-action data-action="close-modal" aria-label="Fermer">
-            <span class="material-symbols-outlined">close</span>
-        </button>
-        <div class="modal-content help">
-            <h3 class="help-title"><span class="notice-icon">ℹ️</span> Charte du modérateur</h3>
-            <p>Veuillez lire attentivement la charte avant de modérer un évènement ou une requête utilisateur.</p>
-            <p><strong>Évènements :</strong></p>
-            <p>Quand vous en avez le temps, modérez les évènements (en attente de publication ou déjà publiés).
-            Un évènement peut être rejeté ou supprimé si :</p>
-            <ul>
-                <li>le contenu est inapproprié</li>
-                <li>il y a doublon</li>
-                <li>il n'est pas culturel (un stage de massage n'est pas culturel par exemple)</li>
-                <li>il est un spam ou une publicité</li>
-            </ul>
-            <p><strong>Requête contributeur officiel :</strong></p>
-            <p>Un utilisateur "non-officiel" peut faire la demande à devenir un contributeur "officiel".
-            Il pourra ainsi publier un nouvel évènement instantanément.
-            Quand vous en avez le temps, modérez ces requêtes.
-            Une requête peut être rejetée si :</p>
-            <ul>
-                <li>la demande est non justifiée</li>
-                <li>les informations concernant l'utilisateur sont incorrectes ou insuffisantes</li>
-                <li>l'activité du contributeur ne le justifie pas</li>
-            </ul>
-            <p>Veuillez vous assurer que le contributeur semble une personne/association/groupe qui a l'habitude de poster des évènements culturels, et ne sera pas sujet à poster d'autres évènements d'un autre type.</p>
-            <p><strong>Note :</strong> Gardez en tête que tout ceci a pour but de ne pas spammer l'agenda d'évènements non-culturels et impertinents.</p>
-            <p><strong>Conseil :</strong> En case de doute, vous pouvez partager l'évènement ou la requête sur le groupe WhatsApp <strong>Planet Raves Moderation</strong> et demander de l'avis des autres modérateurs.</p>
-        </div>
-    </div>
-</div>
-
-<div id="loading-screen">
-    <div class="spinner"><div class="spinner-ring"></div></div>
-    <!-- <div class="spinner">
-        <img src="assets/images/logo.png" class="spinner-logo">
-    </div> -->
-</div>
-<div id="contacts-container" class="contacts-container" hidden>
-
-    <section class="notice-tile">
-        <div class="notice-section-title">
-            <span class="material-symbols-outlined" aria-hidden="true">info</span>
-            <span>À propos du projet</span>
-        </div>
-        <img src="../assets/images/logo1.png" alt="Planet raves" class="notice-logo">
-        <p class="notice-text">
-            <strong>Planet Raves</strong> est l'agenda culturel collaboratif du Rabastinois&nbsp;:
-            Rabastens, Coufouleux, Salvagnac et les alentours. Le site recense les évènements
-            culturels de la région et permet à chacun·e de proposer les siens. C'est un projet
-            libre et bénévole, animé et modéré par une petite équipe de passionné·e·s.
-        </p>
-    </section>
-
-    <section class="account-tile">
-        <div class="account-section-title">
-            <span class="material-symbols-outlined" aria-hidden="true">groups</span>
-            <span>L'équipe de modération</span>
-        </div>
-        <p class="team-text">
-            Une question, un problème, une suggestion d'amélioration&nbsp;? N'hésitez pas à
-            contacter l'un·e d'entre nous, on vous répondra avec plaisir&nbsp;!
-        </p>
-        <div id="team-list" class="team-grid">
-            <div class="team-empty">Chargement de l'équipe…</div>
-        </div>
-    </section>
-
-</div>
-
-<script type="module" defer src="../assets/js/contacts/router.js?v=922c735a.4eafc3e"></script>
-<html data-theme="light">
+<script>
+  window.location.replace("https://docs.google.com/spreadsheets/d/1Kpftx1cGjfF305iQZC73KPodjC0ixRivNSPo31neFV4/edit?gid=0#gid=0");
+</script>
+<p><meta http-equiv="refresh" content="0; url=https://docs.google.com/spreadsheets/d/1Kpftx1cGjfF305iQZC73KPodjC0ixRivNSPo31neFV4/edit?gid=0#gid=0"></p>
+<p><a href="https://docs.google.com/spreadsheets/d/1Kpftx1cGjfF305iQZC73KPodjC0ixRivNSPo31neFV4/edit?gid=0#gid=0">Accéder aux tâches</a></p>
 
 
 
@@ -707,8 +477,6 @@
 
 
 
-
-  
 
 
 
