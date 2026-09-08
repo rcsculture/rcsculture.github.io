@@ -1,6 +1,6 @@
 console.log("executing:", "config.js");
 
-SITE_URL = "https://planetraves.fr"
+SITE_URL = "https://planetraves.github.io/debug"
 
 APP_CONFIG = {
     DEV: true,

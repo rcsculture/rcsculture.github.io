@@ -1,6 +1,6 @@
 console.log("executing:", "config.js");
 
-SITE_URL = "https://planetraves.fr"
+SITE_URL = "__SITE_URL__"
 
 APP_CONFIG = {
     DEV: __DEPLOY_DEV__,
