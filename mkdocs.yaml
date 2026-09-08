@@ -59,6 +59,10 @@ nav:
   - Mon compte: account.md
   - L'Équipe: contacts.md
 
+# Hidden redirect page (kept out of nav/tabs/menus on purpose)
+not_in_nav: |
+  /taches.md
+
 extra_javascript:
   - https://unpkg.com/@supabase/supabase-js@2
   - https://unpkg.com/libphonenumber-js@1.13.3/bundle/libphonenumber-min.js
