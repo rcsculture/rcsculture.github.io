@@ -606,7 +606,7 @@ export function openMyEvent(eventId) {
 export function openProfile(profileId) {
     const profile = OFFICIAL_REQUESTS.find(e => e.id === profileId);
     if (!profile) return;
-    openProfileModal(profile);
+    openProfileModal(profile, user_profile);
 }
 
 export function searchInput(input) {

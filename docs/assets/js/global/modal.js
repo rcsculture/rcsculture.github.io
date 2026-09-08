@@ -127,15 +127,19 @@ function formatReason(reason) {
     return lines.length ? `${lines.join("\n")}\n\n` : "";
 }
 
-// Recipient + transport are not decided yet (Supabase email vs moderator address).
-async function sendEmail({ to, subject, body }) {
-    // fileLog(`sending email to user: ${to}\n\nsubject: ${subject}\n\nbody:\n${body}`);
-    console.log("preparing email:", { to, subject, body });
-    // TODO: implement sending once the method is chosen, e.g. a Supabase Edge Function:
-    // const { error } = await window.supabaseClient.functions.invoke("send-email", {
-    //     body: { to, subject, body },
-    // });
-    // return error;
+// Delivery goes through the "send-email" Supabase Edge Function (Resend). The `from`
+// stays on the verified domain; `replyTo` is the acting moderator so replies reach them.
+async function sendEmail({ to, subject, body, replyTo = null }) {
+    if (!to) {
+        console.warn("sendEmail skipped: no recipient");
+        return null;
+    }
+    console.log("sending email:", { to, subject, replyTo });
+    const { error } = await window.supabaseClient.functions.invoke("send-email", {
+        body: { to, subject, body, from: `${APP_CONFIG.EMAIL_NAME} <${APP_CONFIG.EMAIL_ADDRESS}>`, replyTo },
+    });
+    if (error) console.error("send-email failed:", error);
+    return error;
 }
 
 async function deleteEvent(event, reason = null) {
@@ -161,8 +165,8 @@ ${formatReason(reason)}Si vous n'êtes pas d'accord avec cette décision, vous p
 
 L'équipe Planet Raves`;
 
-    await sendEmail({ to: event.creator_email ?? null, subject, body });
-    return error;
+    // Surface a failed notification to the caller so it shows the error modal.
+    return await sendEmail({ to: event.creator_email ?? null, subject, body, replyTo: sessionProfile?.email ?? null });
 }
 
 async function acceptEvent(event) {
@@ -192,13 +196,12 @@ Pour toute question, vous pouvez répondre à cet email.
 
 L'équipe Planet Raves`;
 
-    await sendEmail({ to: event.creator_email ?? null, subject, body });
-    return error;
+    // return await sendEmail({ to: event.creator_email ?? null, subject, body, replyTo: sessionProfile?.email ?? null });
 }
 
 async function rejectEvent(event, reason = null) {
     console.log("rejecting event:", event.id, reason);
-    const error = await deleteEvent(event, reason);  // if event rejected, it is deleted
+    return await deleteEvent(event, reason);  // if event rejected, it is deleted
 }
 
 async function acceptProfile(profile) {
@@ -222,8 +225,7 @@ Pour toute question, vous pouvez répondre à cet email.
 
 L'équipe Planet Raves`;
 
-    await sendEmail({ to: profile.email ?? null, subject, body });
-    return error;
+    // return await sendEmail({ to: profile.email ?? null, subject, body, replyTo: sessionProfile?.email ?? null });
 }
 
 async function rejectProfile(profile, reason = null) {
@@ -246,8 +248,7 @@ ${formatReason(reason)}Si vous n'êtes pas d'accord avec cette décision, vous p
 
 L'équipe Planet Raves`;
 
-    await sendEmail({ to: profile.email ?? null, subject, body });
-    return error;
+    return await sendEmail({ to: profile.email ?? null, subject, body, replyTo: sessionProfile?.email ?? null });
 }
 
 /* === EXPORTED FUNCTIONS === */
@@ -306,9 +307,10 @@ export function openModeratorCharterModal() {
     document.body.style.overflow = "hidden";
 }
 
-export function openProfileModal(profile) {
+export function openProfileModal(profile, user_profile = null) {
     currentProfile = profile;
     currentModal = profileModal;
+    sessionProfile = user_profile;  // acting moderator, used as reply-to when accepting/rejecting
 
     profileModalContent.innerHTML = `
         <div class="account-section-title">
@@ -586,7 +588,7 @@ export async function confirm(action) {
     }
 
     if (error) {
-        openErrorModal("Un problème est survenu");
+        openErrorModal(localizeAuthError(error, as_is=true));
         console.error(error);
         return;
     }
@@ -595,9 +597,9 @@ export async function confirm(action) {
     closeConfirmModal();
     closeCurrentModal();
     
-    setTimeout(function () {
-        window.location.reload();
-    }, 3000);
+    // setTimeout(function () {
+    //     window.location.reload();
+    // }, 3000);
 }
 
 export function closeModal(target) {

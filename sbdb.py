@@ -14,6 +14,9 @@ Commands
     py sbdb.py query   [--env dev]  "SELECT ..."  [--json]
     py sbdb.py migrate [--from dev] [--to prod] [--out DIR] [--include-data] [--clean] [--include-auth] [--include-storage] [--include-config] [--include-all] [--yes]
     py sbdb.py config  [get|apply] [--env dev] [--out DIR | --file PATH] [--yes]
+    py sbdb.py deploy-function [SLUG] [--env dev] [--path DIR] [--entrypoint index.ts] [--no-verify-jwt]
+    py sbdb.py delete-user EMAIL_OR_ID [--env dev] [--yes]
+    py sbdb.py update-email EMAIL_OR_ID NEW_EMAIL [--env dev] [--yes]
 
 A dump is written as a folder of numbered fragments (00_session, 10_extensions,
 20_types, 30_sequences, 40_functions, 50_tables, 60_data/<table>, 62_storage_buckets,
@@ -108,6 +111,12 @@ def lit(value) -> str:
     if value is None:
         return "NULL"
     return "'" + str(value).replace("'", "''") + "'"
+
+
+def _looks_like_uuid(value: str) -> bool:
+    import re
+    return bool(re.fullmatch(r"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-"
+                             r"[0-9a-fA-F]{4}-[0-9a-fA-F]{12}", value))
 
 
 # -----------------------------------------------------------------------------
@@ -234,6 +243,44 @@ class ApiBackend:
 
     def update_config(self, name: str, payload: dict):
         return self._request("PATCH", _CONFIG_ENDPOINTS[name], payload)
+
+    def deploy_function(self, slug: str, root_dir: str, entrypoint: str = "index.ts",
+                        verify_jwt: bool = True, import_map_path: str = None):
+        """Deploy an Edge Function via the Management API (multipart source upload)."""
+        import json
+        import mimetypes
+
+        metadata = {"name": slug, "entrypoint_path": entrypoint, "verify_jwt": verify_jwt}
+        if import_map_path:
+            metadata["import_map_path"] = import_map_path
+
+        parts = [("metadata", (None, json.dumps(metadata), "application/json"))]
+        opened = []
+        try:
+            for base, _dirs, filenames in os.walk(root_dir):
+                for fn in filenames:
+                    full = os.path.join(base, fn)
+                    rel = os.path.relpath(full, root_dir).replace(os.sep, "/")
+                    ctype = ("application/typescript" if fn.endswith((".ts", ".tsx"))
+                             else mimetypes.guess_type(fn)[0] or "application/octet-stream")
+                    f = open(full, "rb")
+                    opened.append(f)
+                    parts.append(("file", (rel, f, ctype)))
+            resp = self._requests.post(
+                f"{self._base}/functions/deploy",
+                params={"slug": slug},
+                files=parts,
+                headers={"Authorization": self._headers["Authorization"]},  # let requests set multipart boundary
+                proxies=self._proxies,
+                verify=self._verify,
+                timeout=180,
+            )
+        finally:
+            for f in opened:
+                f.close()
+        if resp.status_code >= 400:
+            raise SystemExit(f"API error {resp.status_code}: {resp.text}")
+        return resp.json() if resp.content else {}
 
 
 def make_backend(kind: str, env: str):
@@ -951,6 +998,97 @@ def cmd_config(args) -> int:
     return 0
 
 
+def cmd_deploy_function(args) -> int:
+    api = ApiBackend(args.env)
+    root = args.path or os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "supabase", "functions", args.slug
+    )
+    if not os.path.isdir(root):
+        error(f"function folder not found: {root}")
+        return 1
+    if not os.path.isfile(os.path.join(root, args.entrypoint)):
+        error(f"entrypoint not found: {os.path.join(root, args.entrypoint)}")
+        return 1
+    info(f"deploying '{args.slug}' from {root} to {args.env} ...")
+    result = api.deploy_function(
+        args.slug, root, entrypoint=args.entrypoint, verify_jwt=not args.no_verify_jwt
+    )
+    success(f"deployed '{args.slug}' to {args.env} (version {result.get('version', '?')})")
+    return 0
+
+
+def cmd_delete_user(args) -> int:
+    # auth.users deletion cascades to public.profiles (ON DELETE CASCADE);
+    # events.created_by is set NULL. Runs as postgres, so it bypasses RLS.
+    ident = args.identifier.strip()
+    col = "id" if _looks_like_uuid(ident) else "email"
+    backend = make_backend(args.backend, args.env)
+
+    rows = backend.fetch(
+        f"SELECT id::text, email::text FROM auth.users WHERE {col} = {lit(ident)}"
+    )
+    if not rows:
+        error(f"no auth user with {col} = {ident} in {args.env}")
+        return 1
+    if len(rows) > 1:
+        error(f"{len(rows)} users match {col} = {ident}; refine the identifier")
+        return 1
+
+    user = rows[0]
+    warn(f"this permanently deletes auth user {user['email']} ({user['id']}) "
+         f"and cascades to its profile in {args.env}")
+    if not _confirm(f"delete user {user['email']} from {args.env}", args.yes):
+        return 1
+
+    deleted = backend.fetch(
+        f"DELETE FROM auth.users WHERE id = {lit(user['id'])} RETURNING id::text, email::text"
+    )
+    success(f"deleted user {deleted[0]['email']} ({deleted[0]['id']}) from {args.env}")
+    return 0
+
+
+def cmd_update_email(args) -> int:
+    # There is no email-sync trigger, so update auth.users, the email identity, and
+    # public.profiles together (profiles.email is UNIQUE). Runs as postgres.
+    ident = args.identifier.strip()
+    new_email = args.email.strip().lower()
+    if "@" not in new_email:
+        error(f"invalid email: {args.email}")
+        return 1
+    col = "id" if _looks_like_uuid(ident) else "email"
+    backend = make_backend(args.backend, args.env)
+
+    rows = backend.fetch(
+        f"SELECT id::text, email::text FROM auth.users WHERE {col} = {lit(ident)}"
+    )
+    if not rows:
+        error(f"no auth user with {col} = {ident} in {args.env}")
+        return 1
+    if len(rows) > 1:
+        error(f"{len(rows)} users match {col} = {ident}; refine the identifier")
+        return 1
+
+    user = rows[0]
+    if not _confirm(f"change email of {user['email']} to {new_email} in {args.env}", args.yes):
+        return 1
+
+    uid, new = lit(user["id"]), lit(new_email)
+    script = (
+        "BEGIN;\n"
+        f"UPDATE auth.users SET email = {new}, email_change = '', "
+        "email_change_token_new = '', email_change_token_current = '', "
+        f"email_change_confirm_status = 0, updated_at = now() WHERE id = {uid};\n"
+        "UPDATE auth.identities "
+        f"SET identity_data = jsonb_set(identity_data, '{{email}}', to_jsonb({new}::text)), "
+        f"updated_at = now() WHERE user_id = {uid} AND provider = 'email';\n"
+        f"UPDATE public.profiles SET email = {new} WHERE id = {uid};\n"
+        "COMMIT;"
+    )
+    backend.execute_script(script)
+    success(f"updated email {user['email']} -> {new_email} ({user['id']}) in {args.env}")
+    return 0
+
+
 def cmd_exec(args) -> int:
     if not os.path.exists(args.file):
         error(f"path not found: {args.file}")
@@ -1094,6 +1232,28 @@ def build_parser() -> argparse.ArgumentParser:
     p_cfg.add_argument("--file", help="config JSON file or dump folder to apply")
     p_cfg.add_argument("--yes", action="store_true")
     p_cfg.set_defaults(func=cmd_config)
+
+    p_fn = sub.add_parser("deploy-function", help="deploy an Edge Function to a project via the Management API")
+    p_fn.add_argument("slug", nargs="?", default="send-email", help="function slug (default: send-email)")
+    p_fn.add_argument("--env", default="dev")
+    p_fn.add_argument("--path", help="function source folder (default: supabase/functions/<slug>)")
+    p_fn.add_argument("--entrypoint", default="index.ts")
+    p_fn.add_argument("--no-verify-jwt", action="store_true",
+                      help="disable gateway JWT verification (function does its own auth)")
+    p_fn.set_defaults(func=cmd_deploy_function)
+
+    p_del = sub.add_parser("delete-user", help="delete an auth user by email or id (cascades to its profile)")
+    p_del.add_argument("identifier", help="user email or UUID")
+    p_del.add_argument("--env", default="dev")
+    p_del.add_argument("--yes", action="store_true")
+    p_del.set_defaults(func=cmd_delete_user)
+
+    p_em = sub.add_parser("update-email", help="change an auth user's email (updates identity and profile too)")
+    p_em.add_argument("identifier", help="current user email or UUID")
+    p_em.add_argument("email", help="the new email address")
+    p_em.add_argument("--env", default="dev")
+    p_em.add_argument("--yes", action="store_true")
+    p_em.set_defaults(func=cmd_update_email)
 
     return parser
 
