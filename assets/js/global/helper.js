@@ -1,7 +1,7 @@
 console.log("executing:", "helper.js");
 
 /* === ERRORS/MESSAGES === */
-function localizeAuthError(error) {
+function localizeAuthError(error, as_is = false) {
   // error is typically an object with { name, message, code, status, ... }
   const code = error?.code || error?.name;
 
@@ -18,8 +18,10 @@ function localizeAuthError(error) {
   };
   console.log("ERROR:", code)
 
-  // Fallback to message but keep it user-friendly
-  return dict[code] || "Une erreur est survenue. Veuillez réessayer.";
+  if (dict[code]) return dict[code];
+  // as_is surfaces the raw provider message instead of the generic fallback
+  if (as_is && error?.message) return error.message;
+  return "Une erreur est survenue. Veuillez réessayer.";
 }
 
 /* === DATE & TIME === */

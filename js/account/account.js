@@ -1,6 +1,6 @@
 console.log("executing:", "account.js");
 
-import {openRoleRequestModal, openProfileModal, openEventModal, openErrorModal, openSuccessModal} from "../global/modal.js?v=c64017d5.f472bc1";
+import {openRoleRequestModal, openProfileModal, openEventModal, openErrorModal, openSuccessModal} from "../global/modal.js?v=ab12efa7.9d0b8ed";
 
 /* === VARIABLES === */
 const hash = window.location.hash.substring(1);
@@ -606,7 +606,7 @@ export function openMyEvent(eventId) {
 export function openProfile(profileId) {
     const profile = OFFICIAL_REQUESTS.find(e => e.id === profileId);
     if (!profile) return;
-    openProfileModal(profile);
+    openProfileModal(profile, user_profile);
 }
 
 export function searchInput(input) {

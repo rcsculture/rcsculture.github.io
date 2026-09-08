@@ -6,7 +6,8 @@ APP_CONFIG = {
     DEV: __DEPLOY_DEV__,
     SUPABASE_URL: "__SUPABASE_URL__",
     SUPABASE_ANON_KEY: "__SUPABASE_ANON_KEY__",
-    EMAIL_ADDRESS: "noreply@planetraves.fr",
+    EMAIL_ADDRESS: "__SUPABASE_EMAIL_ADDRESS__",
+    EMAIL_NAME: "__SUPABASE_EMAIL_NAME__",
     EMAILCONFIRMED_REDIRECT_URL: SITE_URL + "/account_confirmed/",
     RESETPWD_REDIRECT_URL: SITE_URL + "/account_reset_pwd/",
     ROLES: {
