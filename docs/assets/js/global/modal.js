@@ -219,7 +219,7 @@ async function acceptProfile(profile) {
     const body =
 `Bonjour ${profile.name || ""},
 
-Votre demande de statut de contributeur officiel a été acceptée. Vous pouvez désormais publier des évènements sans délai.
+Votre demande de statut de contributeur·rice officiel·le a été acceptée. Vous pouvez désormais publier des évènements sans délai.
 
 Pour toute question, vous pouvez répondre à cet email.
 
@@ -242,7 +242,7 @@ async function rejectProfile(profile, reason = null) {
     const body =
 `Bonjour ${profile.name || ""},
 
-Votre demande de statut de contributeur officiel n'a pas été retenue par l'équipe de modération.
+Votre demande de statut de contributeur·rice officiel·le n'a pas été retenue par l'équipe de modération.
 
 ${formatReason(reason)}Si vous n'êtes pas d'accord avec cette décision, vous pouvez répondre à cet email pour nous en faire part.
 
@@ -329,7 +329,7 @@ export function openProfileModal(profile, user_profile = null) {
                     <span id="account-status" class="value detail-user">${APP_CONFIG.USER_STATUS[profile.status]["label"]}</span>
                 </div>
                 <div class="detail-row">
-                    <span class="label">Contributeur</span>
+                    <span class="label">Contributeur·rice</span>
                     <span id="account-role" class="value detail-user">${APP_CONFIG.ROLES[profile.role]}</span>
                 </div>
             </div>

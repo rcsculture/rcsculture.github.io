@@ -118,7 +118,7 @@ async function getProfiles() {
     if (error) {
         console.error(error)
         updateRoleForm.hidden = false;
-        updateRoleForm.innerText = "Erreur survenue durant le chargement des utilisateurs";
+        updateRoleForm.innerText = "Erreur survenue durant le chargement des utilisateur·rice·s";
         return;
     }
     if (!data || data.length === 0) {
